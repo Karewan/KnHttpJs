@@ -1,12 +1,12 @@
 /**
- * KnHttp v1.0.0 (2022-12-08 21:40:24 +0100)
- * Copyright (c) 2022 Florent VIALATTE
+ * KnHttp v1.0.1 (2023-01-07 19:25:02 +0100)
+ * Copyright (c) 2022 - 2023 Florent VIALATTE
  * Released under the MIT license
  */
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * ERRORS CODES
@@ -171,7 +171,8 @@ const KnHttp = function() {
 					downloadFile(d._xhr.response, getFilenameFromDownload(d._xhr.getResponseHeader('content-disposition'), url));
 					d.success(true, resHeaders);
 				} else {
-					d.success(d._xhr.response, resHeaders);
+					if(opt.responseType == 'json' && !d._xhr.response) d.error(UNKNOWN_ERROR, d._xhr.status);
+					else d.success(d._xhr.response, resHeaders);
 				}
 			} else {
 				d.error(HTTP_ERROR, d._xhr.status);

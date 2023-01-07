@@ -1,2 +1,5 @@
+v1.0.1 (07/01/2023):
+- Génère une erreur si responseType JSON et pas de JSON dans la réponse
+
 v1.0.0 (08/12/2022):
 - Initial release

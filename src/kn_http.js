@@ -1,7 +1,7 @@
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * ERRORS CODES
@@ -166,7 +166,8 @@ const KnHttp = function() {
 					downloadFile(d._xhr.response, getFilenameFromDownload(d._xhr.getResponseHeader('content-disposition'), url));
 					d.success(true, resHeaders);
 				} else {
-					d.success(d._xhr.response, resHeaders);
+					if(opt.responseType == 'json' && !d._xhr.response) d.error(UNKNOWN_ERROR, d._xhr.status);
+					else d.success(d._xhr.response, resHeaders);
 				}
 			} else {
 				d.error(HTTP_ERROR, d._xhr.status);
