@@ -464,7 +464,7 @@ const KnHttp = function() {
 			if(matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
 		}
 
-		if(!filename) filename = url.substring(url.lastIndexOf('/')+1).split("?")[0];
+		if(!filename) filename = url.substring(url.lastIndexOf('/')+1).split(/[?#]/)[0];
 
 		if(!filename) filename = 'download';
 
