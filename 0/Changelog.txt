@@ -1,3 +1,6 @@
+v1.0.3 (11/06/2023):
+- Corrections de la serialization du body quand un array contient des objects, les clés n'étaient pas correctement set
+
 v1.0.2 (09/06/2023):
 - Download: Si pas de header attachment, supprime le query string et le hash à la fin de l'URL pour obtenir le bon nom de fichier
 

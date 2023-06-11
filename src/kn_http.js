@@ -1,7 +1,7 @@
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.2';
+	const VERSION = '1.0.3';
 
 	/**
 	 * ERRORS CODES
@@ -387,7 +387,7 @@ const KnHttp = function() {
 		for(let key in params) {
 			const value = (params[key] == null ? '' : params[key]);
 
-			if (params.constructor === Array) key = `${prefix}[]`;
+			if (params.constructor === Array) key = `${prefix}[${key}]`;
 			else if (params.constructor === Object) key = (prefix ? `${prefix}[${key}]` : key);
 
 			if (typeof value === 'object') query.push(serializeForm(value, key));
@@ -419,7 +419,7 @@ const KnHttp = function() {
 		for(let key in params) {
 			const value = (params[key] == null ? '' : params[key]);
 
-			if (params.constructor === Array) key = `${prefix}[]`;
+			if (params.constructor === Array) key = `${prefix}[${key}]`;
 			else if (params.constructor === Object) key = (prefix ? `${prefix}[${key}]` : key);
 
 			if (typeof value === 'object') serializeFormData(value, key, fd);
