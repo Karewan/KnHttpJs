@@ -1,7 +1,7 @@
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.3';
+	const VERSION = '1.0.4';
 
 	/**
 	 * ERRORS CODES
@@ -468,7 +468,7 @@ const KnHttp = function() {
 
 		if(!filename) filename = 'download';
 
-		return filename;
+		return decodeURIComponent(filename);
 	}
 
 	/**
