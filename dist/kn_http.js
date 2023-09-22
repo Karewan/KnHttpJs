@@ -1,12 +1,12 @@
 /**
- * KnHttp v1.0.4 (2023-09-18 12:42:58 +0200)
+ * KnHttp v1.0.5 (2023-09-22 20:12:29 +0200)
  * Copyright (c) 2022 - 2023 Florent VIALATTE
  * Released under the MIT license
  */
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.4';
+	const VERSION = '1.0.5';
 
 	/**
 	 * ERRORS CODES
@@ -48,7 +48,7 @@ const KnHttp = function() {
 	Deferred.prototype = {
 		abort: function() {
 			console.log("KnHttp.Deferred.abort()");
-			if(this._xhr) this._xhr.abort();
+			if(this._xhr && this._xhr.readyState != 4) this._xhr.abort();
 		},
 		progress: function() {
 			console.log("KnHttp.Deferred.progress()", arguments);

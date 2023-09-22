@@ -1,7 +1,7 @@
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.4';
+	const VERSION = '1.0.5';
 
 	/**
 	 * ERRORS CODES
@@ -43,7 +43,7 @@ const KnHttp = function() {
 	Deferred.prototype = {
 		abort: function() {
 			console.log("KnHttp.Deferred.abort()");
-			if(this._xhr) this._xhr.abort();
+			if(this._xhr && this._xhr.readyState != 4) this._xhr.abort();
 		},
 		progress: function() {
 			console.log("KnHttp.Deferred.progress()", arguments);
