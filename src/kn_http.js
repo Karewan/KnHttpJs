@@ -1,7 +1,7 @@
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.5';
+	const VERSION = '1.0.6';
 
 	/**
 	 * ERRORS CODES
@@ -32,56 +32,73 @@ const KnHttp = function() {
 	/**
 	 * Deferred class
 	 */
-	function Deferred() {
-		console.log("KnHttp.Deferred.constructor()", arguments);
-		this._xhr = new XMLHttpRequest();
-	}
+	class Deferred {
+		constructor() {
+			console.log("KnHttp.Deferred.constructor()", arguments);
 
-	/**
-	 * Deferred methods
-	 */
-	Deferred.prototype = {
-		abort: function() {
-			console.log("KnHttp.Deferred.abort()");
+			this._xhr = new XMLHttpRequest();
+		}
+
+		abort() {
+			console.log("KnHttp.Deferred.abort()", arguments);
+
 			if(this._xhr && this._xhr.readyState != 4) this._xhr.abort();
-		},
-		progress: function() {
+		}
+
+		progress() {
 			console.log("KnHttp.Deferred.progress()", arguments);
+
 			if(this._onProgress) this._onProgress.apply(null, arguments);
-		},
-		success: function() {
+		}
+
+		success() {
 			console.log("KnHttp.Deferred.success()", arguments);
+
 			if(this._onSuccess) this._onSuccess.apply(null, arguments);
 			if(this._onEnd) this._onEnd();
 			if(this._xhr) this._xhr = null;
-		},
-		error: function() {
+		}
+
+		error() {
 			console.log("KnHttp.Deferred.error()", arguments);
+
 			if(this._onError) this._onError.apply(null, arguments);
 			if(this._onEnd) this._onEnd();
 			if(this._xhr) this._xhr = null;
-		},
-		onProgress: function(cb) {
+		}
+
+		onProgress(cb) {
 			console.log("KnHttp.Deferred.onProgress()", arguments);
+
 			this._onProgress = cb;
-			return this;
-		},
-		onSuccess: function(cb) {
-			console.log("KnHttp.Deferred.onSuccess()", arguments);
-			this._onSuccess = cb;
-			return this;
-		},
-		onError: function(cb) {
-			console.log("KnHttp.Deferred.onError()", arguments);
-			this._onError = cb;
-			return this;
-		},
-		onEnd: function(cb) {
-			console.log("KnHttp.Deferred.onEnd()", arguments);
-			this._onEnd = cb;
+
 			return this;
 		}
-	};
+
+		onSuccess(cb) {
+			console.log("KnHttp.Deferred.onSuccess()", arguments);
+
+			this._onSuccess = cb;
+
+			return this;
+		}
+
+		onError(cb) {
+			console.log("KnHttp.Deferred.onError()", arguments);
+
+			this._onError = cb;
+
+			return this;
+		}
+
+		onEnd(cb) {
+			console.log("KnHttp.Deferred.onEnd()", arguments);
+
+			this._onEnd = cb;
+
+			return this;
+		}
+	}
 
 	/**
 	 * Validate status

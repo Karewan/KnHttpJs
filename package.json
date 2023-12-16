@@ -1,7 +1,7 @@
 {
 	"name": "kn-http",
 	"author": "Florent VIALATTE",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"devDependencies": {
 		"gulp": "^4.0.2",
 		"gulp-header-comment": "^0.9.0",
