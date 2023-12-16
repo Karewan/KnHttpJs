@@ -1,6 +1,6 @@
 # KnHttpJS
 
-Javascript Http client for the browser.
+Javascript HTTP client for the browser.
 
 ### Changelog
 
@@ -13,47 +13,60 @@ See the changelog [here](CHANGELOG.md)
 * Methods
 
 	```javascript
-	// HTTP GET request with optional options (responseType json)
+	// HTTP GET request with optional options
+	// responseType json
 	let req = KnHttp.get('https://mysuperurl', opt);
 
-	// HTTP GET request with optional options (responseType text)
+	// HTTP GET request with optional options
+	// responseType text
 	let req = KnHttp.getText('https://mysuperurl', opt);
 
-	// HTTP GET download request with optional options (forced download to browser and responseType blob)
+	// HTTP GET download request with optional options
+	// forced download to browser and responseType blob
 	let req = KnHttp.download('https://mysuperurl', opt);
 
-	// HTTP DELETE request with optional options (responseType json)
+	// HTTP DELETE request with optional options
+	// responseType json
 	let req = KnHttp.del('https://mysuperurl', opt);
 
-	// HTTP POST "raw" request with optional options (raw body and responseType json)
+	// HTTP POST "raw" request with optional options
+	// raw body and responseType json
 	let req = KnHttp.postRaw('https://mysuperurl', opt);
 
-	// HTTP POST "form encoded" with optional options (form encoded with "application/x-www-form-urlencoded" header and responseType json)
+	// HTTP POST "form encoded" with optional options
+	// form encoded with "application/x-www-form-urlencoded" header
+	// responseType json
 	let req = KnHttp.postForm('https://mysuperurl', opt);
 
-	// HTTP POST "form data" with optional options (form data and responseType json)
+	// HTTP POST "form data" with optional options
+	// form data and responseType json
 	let req = KnHttp.postFormData('https://mysuperurl', opt);
 
-	// HTTP POST "json" with optional options (json body and responseType json)
+	// HTTP POST "json" with optional options
+	// json body and responseType json
 	let req = KnHttp.postJson('https://mysuperurl', opt);
 
 	// Custom HTTP req with options
 	let req = KnHttp.request('https://mysuperurl', opt);
 
-	// On progress pourcent callback for upload only (return self)
+	// On progress pourcent callback for upload only
+	// return self
 	req.onProgress((progress) => {
 	});
 
-	// On req sucess callback (return self)
+	// On req sucess callback
+	// return self
 	req.onSuccess((res, headers) => {
 	});
 
-	// On req error callback (return self)
+	// On req error callback
+	// return self
 	req.onError((err, status) => {
 		// See the err codes bellow
 	});
 
-	// On req ended callback (whatever the final result) (return self)
+	// On req ended callback (whatever the final result)
+	// return self
 	req.onEnd(() => {
 	});
 
@@ -61,17 +74,27 @@ See the changelog [here](CHANGELOG.md)
 	req.abort();
 	```
 
+* Error codes
+
+	```javascript
+	// Request has been cancelled (using the abort method)
+	KnHttp.CANCELED_ERROR;
+
+	// Network error (Server can't be reached, no internet ?)
+	KnHttp.NETWORK_ERROR;
+
+	// Http error (validateStatus callback has failed)
+	KnHttp.HTTP_ERROR;
+
+	// Unknown error (can be a bad JSON for exemple)
+	KnHttp.UNKNOWN_ERROR;
+	```
+
 * Properties
 
 	```javascript
 	// Get the XMLHttpRequest of the request object
 	req._xhr;
-
-	// Error codes
-	KnHttp.CANCELED_ERROR; // Request has been cancelled (using the abort method)
-	KnHttp.NETWORK_ERROR; // Network error (Server can't be reached, no internet ?)
-	KnHttp.HTTP_ERROR; // Http error (validateStatus callback has failed)
-	KnHttp.UNKNOWN_ERROR; // Unknown error (can be a bad JSON for exemple)
 
 	// Return the default options object (you can update the properties)
 	KnHttp.DEFAULTS;
