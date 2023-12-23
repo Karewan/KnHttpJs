@@ -1,7 +1,7 @@
 KnHttpJS Changelog
 ==========
 
-v1.0.7 (2023-12-16):
+v1.0.7 (2023-12-23):
 ----------------------------
 * Use Object.assign to set default options
 
