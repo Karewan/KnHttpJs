@@ -1,6 +1,10 @@
 KnHttpJS Changelog
 ==========
 
+v1.0.7 (2023-12-16):
+----------------------------
+* Use Object.assign to set default options
+
 v1.0.6 (2023-12-16):
 ----------------------------
 * Replace the fake Deferred class by a true javascript class

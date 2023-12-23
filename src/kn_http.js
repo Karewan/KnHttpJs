@@ -1,7 +1,7 @@
 'use strict';
 const KnHttp = function() {
 	/** Lib version */
-	const VERSION = '1.0.6';
+	const VERSION = '1.0.7';
 
 	/**
 	 * ERRORS CODES
@@ -124,19 +124,20 @@ const KnHttp = function() {
 		const d = new Deferred();
 
 		// Request options
-		if(!opt) opt = {};
-		if(typeof opt.timeout == 'undefined') opt.timeout = DEFAULTS.timeout;
-		if(!opt.requestType) opt.requestType = DEFAULTS.requestType;
-		if(!opt.responseType) opt.responseType = DEFAULTS.responseType;
-		if(!opt.headers) opt.headers = {};
-		if(!opt.download) opt.download = false;
-		if(!opt.upload) opt.upload = false;
-		if(!opt.withCredentials) opt.withCredentials = DEFAULTS.withCredentials;
-		if(!opt.basicAuth) opt.basicAuth = DEFAULTS.basicAuth;
-		if(!opt.bearerAuthToken) opt.bearerAuthToken = DEFAULTS.bearerAuthToken;
-		if(!opt.csrfHeader) opt.csrfHeader = DEFAULTS.csrfHeader;
-		if(!opt.csrf) opt.csrf = null;
-		if(!opt.body) opt.body = null;
+		opt = Object.assign({
+			timeout: DEFAULTS.timeout,
+			requestType: DEFAULTS.requestType,
+			responseType: DEFAULTS.responseType,
+			withCredentials: DEFAULTS.withCredentials,
+			basicAuth: DEFAULTS.basicAuth,
+			bearerAuthToken: DEFAULTS.bearerAuthToken,
+			csrfHeader: DEFAULTS.csrfHeader,
+			download: false,
+			upload: false,
+			headers: {},
+			csrf: null,
+			body: null
+		}, opt || {});
 
 		// Headers
 		const reqHeaders = {};
