@@ -31,23 +31,23 @@ See the changelog [here](CHANGELOG.md)
 
 	// HTTP POST "raw" request with optional options
 	// raw body and responseType json
-	let req = KnHttp.postRaw('https://mysuperurl', opt);
+	let req = KnHttp.postRaw('https://mysuperurl', data, opt);
 
 	// HTTP POST "form encoded" with optional options
 	// form encoded with "application/x-www-form-urlencoded" header
 	// responseType json
-	let req = KnHttp.postForm('https://mysuperurl', opt);
+	let req = KnHttp.postForm('https://mysuperurl', data, opt);
 
 	// HTTP POST "form data" with optional options
 	// form data and responseType json
-	let req = KnHttp.postFormData('https://mysuperurl', opt);
+	let req = KnHttp.postFormData('https://mysuperurl', data, opt);
 
 	// HTTP POST "json" with optional options
 	// json body and responseType json
-	let req = KnHttp.postJson('https://mysuperurl', opt);
+	let req = KnHttp.postJson('https://mysuperurl', data, opt);
 
 	// Custom HTTP req with options
-	let req = KnHttp.request('https://mysuperurl', opt);
+	let req = KnHttp.request('https://mysuperurl', method, opt);
 
 	// On progress pourcent callback for upload only
 	// return self
@@ -106,7 +106,7 @@ See the changelog [here](CHANGELOG.md)
 * Options
 
 	```javascript
-	let req = KnHttp.request('https://mysuperurl', {
+	let req = KnHttp.request('https://mysuperurl', 'POST', {
 		// Request timeout in ms
 		timeout = 270_000,
 		// Request type (raw, json, form, formData)
@@ -146,7 +146,7 @@ See the license [here](LICENSE.txt)
 ```
 The MIT License (MIT)
 
-Copyright (c) 2022-2023 Florent VIALATTE
+Copyright (c) 2022-2024 Florent VIALATTE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
