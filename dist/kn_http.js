@@ -1,12 +1,12 @@
 /**
- * KnHttp v1.0.7 (2023-12-23 15:52:21 +0100)
- * Copyright (c) 2022 - 2023 Florent VIALATTE
+ * KnHttp v1.0.8 (2024-05-05 20:47:58 +0200)
+ * Copyright (c) 2022 - 2024 Florent VIALATTE
  * Released under the MIT license
  */
 'use strict';
 const KnHttp = function() {
-	/** Lib version */
-	const VERSION = '1.0.7';
+	/** LIB VERSION */
+	const VERSION = '1.0.8';
 
 	/**
 	 * ERRORS CODES
@@ -17,7 +17,7 @@ const KnHttp = function() {
 	UNKNOWN_ERROR = 2;
 
 	/**
-	 * DEFAULTS
+	 * DEFAULTS OPTIONS
 	 */
 	const DEFAULTS = {
 		validateStatus: validateStatus,
@@ -38,24 +38,39 @@ const KnHttp = function() {
 	 * Deferred class
 	 */
 	class Deferred {
+		/**
+		 * Class constructor
+		 */
 		constructor() {
 			console.log("KnHttp.Deferred.constructor()", arguments);
 
 			this._xhr = new XMLHttpRequest();
 		}
 
+		/**
+		 * Abort the request
+		 * @returns {void}
+		 */
 		abort() {
 			console.log("KnHttp.Deferred.abort()", arguments);
 
 			if(this._xhr && this._xhr.readyState != 4) this._xhr.abort();
 		}
 
+		/**
+		 * Trigger on progress
+		 * @returns {void}
+		 */
 		progress() {
 			console.log("KnHttp.Deferred.progress()", arguments);
 
 			if(this._onProgress) this._onProgress.apply(null, arguments);
 		}
 
+		/**
+		 * Trigger on success
+		 * @returns {void}
+		 */
 		success() {
 			console.log("KnHttp.Deferred.success()", arguments);
 
@@ -64,6 +79,10 @@ const KnHttp = function() {
 			if(this._xhr) this._xhr = null;
 		}
 
+		/**
+		 * Trigger on error
+		 * @returns {void}
+		 */
 		error() {
 			console.log("KnHttp.Deferred.error()", arguments);
 
@@ -72,6 +91,11 @@ const KnHttp = function() {
 			if(this._xhr) this._xhr = null;
 		}
 
+		/**
+		 * Set on progress callback
+		 * @param {function(progress):void} cb
+		 * @returns {Deferred}
+		 */
 		onProgress(cb) {
 			console.log("KnHttp.Deferred.onProgress()", arguments);
 
@@ -80,6 +104,11 @@ const KnHttp = function() {
 			return this;
 		}
 
+		/**
+		 * Set on success callback
+		 * @param {function(res, headers):void} cb
+		 * @returns {Deferred}
+		 */
 		onSuccess(cb) {
 			console.log("KnHttp.Deferred.onSuccess()", arguments);
 
@@ -88,6 +117,11 @@ const KnHttp = function() {
 			return this;
 		}
 
+		/**
+		 * Set on error callback
+		 * @param {function(err, status):void} cb
+		 * @returns {Deferred}
+		 */
 		onError(cb) {
 			console.log("KnHttp.Deferred.onError()", arguments);
 
@@ -96,6 +130,11 @@ const KnHttp = function() {
 			return this;
 		}
 
+		/**
+		 * Set on end callback
+		 * @param {function():void} cb
+		 * @returns {Deferred}
+		 */
 		onEnd(cb) {
 			console.log("KnHttp.Deferred.onEnd()", arguments);
 
@@ -107,8 +146,8 @@ const KnHttp = function() {
 
 	/**
 	 * Validate status
-	 * @param status status
-	 * @returns bool
+	 * @param {number} status
+	 * @returns {boolean}
 	 */
 	function validateStatus(status) {
 		console.log("KnHttp.validateStatus()", arguments);
@@ -117,10 +156,10 @@ const KnHttp = function() {
 
 	/**
 	 * Make a request
-	 * @param string url
-	 * @param string method
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {string} method
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function request(url, method, opt) {
 		console.log("KnHttp.request()", arguments);
@@ -277,9 +316,9 @@ const KnHttp = function() {
 
 	/**
 	 * GET request
-	 * @param string url
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function get(url, opt) {
 		console.log("KnHttp.get()", arguments);
@@ -289,9 +328,9 @@ const KnHttp = function() {
 
 	/**
 	 * Text GET request
-	 * @param string url
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function getText(url, opt) {
 		console.log("KnHttp.getText()", arguments);
@@ -303,9 +342,9 @@ const KnHttp = function() {
 
 	/**
 	 * DELETE request
-	 * @param string url
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function del(url, opt) {
 		console.log("KnHttp.delete()", arguments);
@@ -315,9 +354,9 @@ const KnHttp = function() {
 
 	/**
 	 * Download GET request
-	 * @param string url
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function download(url, opt) {
 		console.log("KnHttp.download()", arguments);
@@ -330,10 +369,10 @@ const KnHttp = function() {
 
 	/**
 	 * Raw POST request
-	 * @param string url
-	 * @param string data
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {string} data
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function postRaw(url, data, opt) {
 		console.log("KnHttp.postRaw()", arguments);
@@ -346,10 +385,10 @@ const KnHttp = function() {
 
 	/**
 	 * Form POST request
-	 * @param string url
-	 * @param object data
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} data
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	 function postForm(url, data, opt) {
 		console.log("KnHttp.postForm()", arguments);
@@ -362,10 +401,10 @@ const KnHttp = function() {
 
 	/**
 	 * FormData POST request
-	 * @param string url
-	 * @param object data
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} data
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function postFormData(url, data, opt) {
 		console.log("KnHttp.postFormData()", arguments);
@@ -378,10 +417,10 @@ const KnHttp = function() {
 
 	/**
 	 * JSON POST request
-	 * @param string url
-	 * @param object data
-	 * @param object opt
-	 * @returns Deferred
+	 * @param {string} url
+	 * @param {object} data
+	 * @param {object} opt
+	 * @returns {Deferred}
 	 */
 	function postJson(url, data, opt) {
 		console.log("KnHttp.postJson()", arguments);
@@ -393,10 +432,74 @@ const KnHttp = function() {
 	}
 
 	/**
+	 * Raw PUT request
+	 * @param {string} url
+	 * @param {string} data
+	 * @param {object} opt
+	 * @returns {Deferred}
+	 */
+	function putRaw(url, data, opt) {
+		console.log("KnHttp.putRaw()", arguments);
+
+		if(!opt) opt = {};
+		opt.body = data;
+		opt.requestType = 'raw';
+		return request(url, 'PUT', opt);
+	}
+
+	/**
+	 * Form PUT request
+	 * @param {string} url
+	 * @param {object} data
+	 * @param {object} opt
+	 * @returns {Deferred}
+	 */
+	 function putForm(url, data, opt) {
+		console.log("KnHttp.putForm()", arguments);
+
+		if(!opt) opt = {};
+		opt.body = data;
+		opt.requestType = 'form';
+		return request(url, 'PUT', opt);
+	}
+
+	/**
+	 * FormData PUT request
+	 * @param {string} url
+	 * @param {object} data
+	 * @param {object} opt
+	 * @returns {Deferred}
+	 */
+	function putFormData(url, data, opt) {
+		console.log("KnHttp.putFormData()", arguments);
+
+		if(!opt) opt = {};
+		opt.body = data;
+		opt.requestType = 'formData';
+		return request(url, 'PUT', opt);
+	}
+
+	/**
+	 * JSON PUT request
+	 * @param {string} url
+	 * @param {object} data
+	 * @param {object} opt
+	 * @returns {Deferred}
+	 */
+	function putJson(url, data, opt) {
+		console.log("KnHttp.putJson()", arguments);
+
+		if(!opt) opt = {};
+		opt.body = data;
+		opt.requestType = 'json';
+		return request(url, 'PUT', opt);
+	}
+
+	/**
 	 * Serialize object to url encoded query
-	 * @param object params
-	 * @param string prefix
-	 * @returns
+	 * @param {object} params
+	 * @param {string} prefix
+	 * @returns {string}
 	 */
 	 function serializeForm(params, prefix) {
 		if(prefix) {
@@ -422,10 +525,10 @@ const KnHttp = function() {
 
 	/**
 	 * Serialize object to form data
-	 * @param object params
-	 * @param string prefix
-	 * @param FormData fd
-	 * @returns
+	 * @param {object} params
+	 * @param {string} prefix
+	 * @param {FormData} fd
+	 * @returns {FormData}
 	 */
 	function serializeFormData(params, prefix, fd) {
 		if(prefix) {
@@ -454,8 +557,9 @@ const KnHttp = function() {
 
 	/**
 	 * Download file into the broswer
-	 * @param blob file
-	 * @param string filename
+	 * @param {blob} file
+	 * @param {string} filename
+	 * @returns {void}
 	 */
 	function downloadFile(file, filename) {
 		console.log("KnHttp.downloadFile()", arguments);
@@ -473,9 +577,9 @@ const KnHttp = function() {
 
 	/**
 	 * Get filename from "content-disposition" header or url
-	 * @param string disposition
-	 * @param string url
-	 * @returns string
+	 * @param {string} disposition
+	 * @param {string} url
+	 * @returns {string}
 	 */
 	function getFilenameFromDownload(disposition, url) {
 		console.log('KnHttp.getFilenameFromDownload()', arguments);
@@ -496,8 +600,8 @@ const KnHttp = function() {
 
 	/**
 	 * Parse response headers
-	 * @param string headers
-	 * @returns object
+	 * @param {string} headers
+	 * @returns {object}
 	 */
 	function parseResponseHeaders(headers) {
 		const headerMap = {},
@@ -514,7 +618,7 @@ const KnHttp = function() {
 	}
 
 	/**
-	 * Export public
+	 * Export public methods
 	 */
 	return {
 		VERSION,

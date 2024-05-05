@@ -1,6 +1,11 @@
 KnHttpJS Changelog
 ==========
 
+v1.0.8 (2024-05-05):
+----------------------------
+* Added HTTT PUT methods
+* Added a proper DocBlock for all methods
+
 v1.0.7 (2023-12-23):
 ----------------------------
 * Use Object.assign to set default options

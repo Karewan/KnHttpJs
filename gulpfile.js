@@ -20,7 +20,7 @@ const terser_options = {
 },
 header_txt= `
 	KnHttp v<%= pkg.version %> (<%= moment().format('YYYY-MM-DD HH:mm:ss ZZ') %>)
-	Copyright (c) 2022 - 2023 <%= pkg.author %>
+	Copyright (c) 2022 - <%= moment().format('YYYY') %> <%= pkg.author %>
 	Released under the MIT license
 `;
 

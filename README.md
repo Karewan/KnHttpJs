@@ -46,6 +46,23 @@ See the changelog [here](CHANGELOG.md)
 	// json body and responseType json
 	let req = KnHttp.postJson('https://mysuperurl', data, opt);
 
+	// HTTP PUT "raw" request with optional options
+	// raw body and responseType json
+	let req = KnHttp.putRaw('https://mysuperurl', data, opt);
+
+	// HTTP PUT "form encoded" with optional options
+	// form encoded with "application/x-www-form-urlencoded" header
+	// responseType json
+	let req = KnHttp.putForm('https://mysuperurl', data, opt);
+
+	// HTTP PUT "form data" with optional options
+	// form data and responseType json
+	let req = KnHttp.putFormData('https://mysuperurl', data, opt);
+
+	// HTTP PUT "json" with optional options
+	// json body and responseType json
+	let req = KnHttp.putJson('https://mysuperurl', data, opt);
+
 	// Custom HTTP req with options
 	let req = KnHttp.request('https://mysuperurl', method, opt);
 
