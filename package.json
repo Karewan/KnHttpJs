@@ -1,11 +1,26 @@
 {
 	"name": "kn-http",
 	"author": "Florent VIALATTE",
-	"version": "1.0.8",
+	"version": "2.0.1",
+	"main": "./dist/kn-http.js",
+	"types": "./dist/kn-http.d.ts",
+	"type": "module",
+	"license": "MIT",
+	"scripts": {
+		"build": "rollup -c && npx -p typescript tsc dist/kn-http.js --declaration --allowJs --emitDeclarationOnly --outFile dist/kn-http.d.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Karewan/KnHttpJs.git"
+	},
+	"keywords": [
+		"http",
+		"ajax",
+		"xhr"
+	],
 	"devDependencies": {
-		"gulp": "^4.0.2",
-		"gulp-header-comment": "^0.9.0",
-		"gulp-rename": "^2.0.0",
-		"gulp-terser": "^2.0.1"
+		"@rollup/plugin-replace": "^6.0.2",
+		"@rollup/plugin-terser": "^0.4.4",
+		"rollup": "^4.31.0"
 	}
 }

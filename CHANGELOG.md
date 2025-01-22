@@ -1,6 +1,14 @@
 KnHttpJS Changelog
 ==========
 
+v2.0.1 (2025-01-22):
+----------------------------
+* Published as npm package
+* Added types
+* Added wasSuccess param to the onEnd callback
+* Commented out all the console.log
+* Replaced gulp by rollup
+
 v1.0.8 (2024-05-05):
 ----------------------------
 * Added HTTT PUT methods

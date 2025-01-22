@@ -8,7 +8,60 @@ See the changelog [here](CHANGELOG.md)
 
 ### Usage
 
-* Get the latest version in [dist](dist) folder
+* Install via your favorite package manager or get the latest version in [dist](dist) folder
+
+	```shell
+	pnpm install kn-http
+	```
+
+	```shell
+	npm install kn-http
+	```
+
+* Usage example
+
+	```javascript
+	console.log('saveBtn()');
+
+	saveBtn.btnLoading(true);
+
+	KnHttp.postForm("/account/settings",
+			{
+				currentPassword: currentPassword,
+				newPassword: newPassword,
+				newPasswordConfirm: newPasswordConfirm
+			},
+			{
+				csrf: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+			})
+			.onSuccess((json, headers) => {
+				console.log('saveBtn() onSuccess()', json, headers);
+
+				if (json.success) {
+					currentPassword = newPassword = newPasswordConfirm = '';
+					notifySuccess("Password updated successfully");
+				} else {
+					notifyError(json.error ? json.error : "Unknown error");
+				}
+			})
+			.onError((err, status) => {
+				console.error('saveBtn() onError()', err, status);
+
+				if (err == KnHttp.CANCELED_ERROR) {
+					return;
+				} else if (err == KnHttp.HTTP_ERROR) {
+					notifyError("Unknown error: HTTP CODE " + status);
+				} else {
+					if(err == KnHttp.NETWORK_ERROR) notifyError("Please check your internet connection");
+					else notifyError("Unknown error");
+				}
+			})
+			.onEnd((wasSuccess) => {
+				console.log('saveBtn() onEnd()', wasSuccess);
+
+				saveBtn.btnLoading(false);
+			});
+	```
 
 * Methods
 
@@ -84,7 +137,7 @@ See the changelog [here](CHANGELOG.md)
 
 	// On req ended callback (whatever the final result)
 	// return self
-	req.onEnd(() => {
+	req.onEnd((wasSuccess) => {
 	});
 
 	// Abort / cancel the request
@@ -163,7 +216,7 @@ See the license [here](LICENSE.txt)
 ```
 The MIT License (MIT)
 
-Copyright (c) 2022-2024 Florent VIALATTE
+Copyright (c) 2022-2025 Florent VIALATTE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
