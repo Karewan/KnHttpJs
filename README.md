@@ -26,41 +26,44 @@ See the changelog [here](CHANGELOG.md)
 	saveBtn.btnLoading(true);
 
 	KnHttp.postForm("/account/settings",
-			{
-				currentPassword: currentPassword,
-				newPassword: newPassword,
-				newPasswordConfirm: newPasswordConfirm
-			},
-			{
-				csrf: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-			})
-			.onSuccess((json, headers) => {
-				console.log('saveBtn() onSuccess()', json, headers);
+	{
+		currentPassword: currentPassword,
+		newPassword: newPassword,
+		newPasswordConfirm: newPasswordConfirm
+	},
+	{
+		csrf: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	})
+	.onSuccess((json, headers) => {
+		console.log('saveBtn() onSuccess()', json, headers);
 
-				if (json.success) {
-					currentPassword = newPassword = newPasswordConfirm = '';
-					notifySuccess("Password updated successfully");
-				} else {
-					notifyError(json.error ? json.error : "Unknown error");
-				}
-			})
-			.onError((err, status) => {
-				console.error('saveBtn() onError()', err, status);
+		if (json.success) {
+			currentPassword = newPassword = newPasswordConfirm = '';
+			notifySuccess("Password updated successfully");
+		} else {
+			notifyError(json.error ? json.error : "Unknown error");
+		}
+	})
+	.onError((err, status) => {
+		console.error('saveBtn() onError()', err, status);
 
-				if (err == KnHttp.CANCELED_ERROR) {
-					return;
-				} else if (err == KnHttp.HTTP_ERROR) {
-					notifyError("Unknown error: HTTP CODE " + status);
-				} else {
-					if(err == KnHttp.NETWORK_ERROR) notifyError("Please check your internet connection");
-					else notifyError("Unknown error");
-				}
-			})
-			.onEnd((wasSuccess) => {
-				console.log('saveBtn() onEnd()', wasSuccess);
+		if (err == KnHttp.CANCELED_ERROR) {
+			return;
+		} else if (err == KnHttp.HTTP_ERROR) {
+			notifyError("Unknown error: HTTP CODE " + status);
+		} else {
+			if(err == KnHttp.NETWORK_ERROR) {
+				notifyError("Please check your internet connection");
+			} else {
+				notifyError("Unknown error");
+			}
+		}
+	})
+	.onEnd((wasSuccess) => {
+		console.log('saveBtn() onEnd()', wasSuccess);
 
-				saveBtn.btnLoading(false);
-			});
+		saveBtn.btnLoading(false);
+	});
 	```
 
 * Methods
