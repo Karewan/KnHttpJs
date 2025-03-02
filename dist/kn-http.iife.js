@@ -1,10 +1,46 @@
 /**
- * KnHttp v2.0.1 (2025-01-22T14:14:15.915Z)
+ * KnHttp v3.0.0 (2025-03-02T17:47:12.174Z)
  * Copyright (c) 2022 - 2025 Florent VIALATTE
  * Released under the MIT license
  */
 var KnHttp = (function () {
 	'use strict';
+
+	/**
+	 * Success response
+	 */
+	class Response {
+		/**
+		 * Class constructor
+		 * @param {any} data
+		 * @param {object} headers
+		 * @param {Number} httpCode
+		 */
+		constructor(data, headers, httpCode) {
+			this.data = data;
+			this.headers = headers;
+			this.httpCode = httpCode;
+		}
+	}
+
+	/**
+	 * Error response
+	 */
+	class Error {
+		/**
+		 * Class constructor
+		 * @param {Number} code
+		 * @param {Number} httpCode
+		 * @param {any} data
+		 * @param {object} headers
+		 */
+		constructor(code, httpCode, data = null, headers = {}) {
+			this.code = code;
+			this.httpCode = httpCode;
+			this.data = data;
+			this.headers = headers;
+		}
+	}
 
 	/**
 	 * Deferred
@@ -24,13 +60,13 @@ var KnHttp = (function () {
 
 		/**
 		 * @private
-		 * @returns {(res: any, headers: object) => void}
+		 * @returns {(res: Response) => void}
 		 */
 		_onSuccess;
 
 		/**
 		 * @private
-		 * @returns {(err: number, status: number) => void}
+		 * @returns {(err: Error) => void}
 		 */
 		_onError;
 
@@ -62,9 +98,10 @@ var KnHttp = (function () {
 		/**
 		 * Trigger on progress
 		 * @private
+		 * @param {number} progress
 		 * @returns {void}
 		 */
-		_progress() {
+		_progress(progress) {
 			//console.log("KnHttp.Deferred._progress()", arguments);
 
 			if (this._onProgress) this._onProgress.apply(null, arguments);
@@ -73,9 +110,10 @@ var KnHttp = (function () {
 		/**
 		 * Trigger on success
 		 * @private
+		 * @param {Response} res
 		 * @returns {void}
 		 */
-		_success() {
+		_success(res) {
 			//console.log("KnHttp.Deferred._success()", arguments);
 
 			if (this._onSuccess) this._onSuccess.apply(null, arguments);
@@ -86,9 +124,10 @@ var KnHttp = (function () {
 		/**
 		 * Trigger on error
 		 * @private
+		 * @param {Error} err
 		 * @returns {void}
 		 */
-		_error() {
+		_error(err) {
 			//console.log("KnHttp.Deferred._error()", arguments);
 
 			if (this._onError) this._onError.apply(null, arguments);
@@ -110,7 +149,7 @@ var KnHttp = (function () {
 
 		/**
 		 * Set on success callback
-		 * @param {(res: any, headers: object) => void} cb
+		 * @param {(res: Response) => void} cb
 		 * @returns {Deferred}
 		 */
 		onSuccess(cb) {
@@ -122,7 +161,7 @@ var KnHttp = (function () {
 
 		/**
 		 * Set on error callback
-		 * @param {(err: number, status: number) => void} cb
+		 * @param {(err: Error) => void} cb
 		 * @returns {Deferred}
 		 */
 		onError(cb) {
@@ -278,7 +317,7 @@ var KnHttp = (function () {
 	 */
 	const KnHttp = new class {
 		/** LIB VERSION */
-		VERSION = "2.0.1";
+		VERSION = "3.0.0";
 
 		/**
 		 * ERRORS CODES
@@ -383,18 +422,21 @@ var KnHttp = (function () {
 
 				if (!d._xhr) return;
 
-				if (this.DEFAULTS.validateStatus(d._xhr.status)) {
-					let resHeaders = parseResponseHeaders(d._xhr.getAllResponseHeaders());
+				const resHeaders = parseResponseHeaders(d._xhr.getAllResponseHeaders());
 
+				if (this.DEFAULTS.validateStatus(d._xhr.status)) {
 					if (opt.download && opt.responseType == 'blob') {
 						downloadFile(d._xhr.response, getFilenameFromContentDisposition(d._xhr.getResponseHeader('content-disposition'), url));
-						d._success(true, resHeaders);
+						d._success(new Response(true, resHeaders, d._xhr.status));
 					} else {
-						if (opt.responseType == 'json' && !d._xhr.response) d._error(this.UNKNOWN_ERROR, d._xhr.status);
-						else d._success(d._xhr.response, resHeaders);
+						if (opt.responseType == 'json' && !d._xhr.response) {
+							d._error(new Error(this.UNKNOWN_ERROR, d._xhr.status, d._xhr.response, resHeaders));
+						} else {
+							d._success(new Response(d._xhr.response, resHeaders, d._xhr.status));
+						}
 					}
 				} else {
-					d._error(this.HTTP_ERROR, d._xhr.status);
+					d._error(new Error(this.HTTP_ERROR, d._xhr.status, d._xhr.response, resHeaders));
 				}
 			};
 
@@ -403,7 +445,7 @@ var KnHttp = (function () {
 				//console.log("KnHttp.request.xhr.onerror()", e, d._xhr);
 
 				if (!d._xhr) return;
-				d._error(this.NETWORK_ERROR, d._xhr.status);
+				d._error(new Error(this.NETWORK_ERROR, d._xhr.status));
 			};
 
 			// On timeout
@@ -411,7 +453,7 @@ var KnHttp = (function () {
 				//console.log("KnHttp.request.xhr.ontimeout()", e, d._xhr);
 
 				if (!d._xhr) return;
-				d._error(this.UNKNOWN_ERROR, d._xhr.status);
+				d._error(new Error(this.UNKNOWN_ERROR, d._xhr.status));
 			};
 
 			// On abort
@@ -419,7 +461,7 @@ var KnHttp = (function () {
 				//console.log("KnHttp.request.xhr.onabort()", e, d._xhr);
 
 				if (!d._xhr) return;
-				d._error(this.CANCELED_ERROR, d._xhr.status);
+				d._error(new Error(this.CANCELED_ERROR, d._xhr.status));
 			};
 
 			// Download mode
@@ -448,7 +490,7 @@ var KnHttp = (function () {
 					//console.log("KnHttp.request.xhr.upload.onerror()", e, d._xhr);
 
 					if (!d._xhr) return;
-					d._error(this.NETWORK_ERROR, d._xhr.status);
+					d._error(new Error(this.NETWORK_ERROR, d._xhr.status));
 				};
 			}
 

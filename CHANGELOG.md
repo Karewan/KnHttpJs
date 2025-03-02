@@ -1,6 +1,12 @@
 KnHttpJS Changelog
 ==========
 
+v3.0.0 (2025-03-02):
+----------------------------
+### Breaking changes
+* onSuccess parameters replaced by one Response object
+* onError parameters replaced by one Error object
+
 v2.0.1 (2025-01-22):
 ----------------------------
 * Published as npm package

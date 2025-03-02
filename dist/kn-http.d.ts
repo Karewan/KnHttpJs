@@ -138,11 +138,6 @@ declare module "kn-http" {
         putJson(url: string, data: object, opt: object): Deferred;
     };
     /**
-     * KnHttp v2.0.1 (2025-01-22T14:14:15.915Z)
-     * Copyright (c) 2022 - 2025 Florent VIALATTE
-     * Released under the MIT license
-     */
-    /**
      * Deferred
      */
     class Deferred {
@@ -158,12 +153,12 @@ declare module "kn-http" {
         private _onProgress;
         /**
          * @private
-         * @returns {(res: any, headers: object) => void}
+         * @returns {(res: Response) => void}
          */
         private _onSuccess;
         /**
          * @private
-         * @returns {(err: number, status: number) => void}
+         * @returns {(err: Error) => void}
          */
         private _onError;
         /**
@@ -179,18 +174,21 @@ declare module "kn-http" {
         /**
          * Trigger on progress
          * @private
+         * @param {number} progress
          * @returns {void}
          */
         private _progress;
         /**
          * Trigger on success
          * @private
+         * @param {Response} res
          * @returns {void}
          */
         private _success;
         /**
          * Trigger on error
          * @private
+         * @param {Error} err
          * @returns {void}
          */
         private _error;
@@ -202,21 +200,58 @@ declare module "kn-http" {
         onProgress(cb: (progress: number) => void): Deferred;
         /**
          * Set on success callback
-         * @param {(res: any, headers: object) => void} cb
+         * @param {(res: Response) => void} cb
          * @returns {Deferred}
          */
-        onSuccess(cb: (res: any, headers: object) => void): Deferred;
+        onSuccess(cb: (res: Response) => void): Deferred;
         /**
          * Set on error callback
-         * @param {(err: number, status: number) => void} cb
+         * @param {(err: Error) => void} cb
          * @returns {Deferred}
          */
-        onError(cb: (err: number, status: number) => void): Deferred;
+        onError(cb: (err: Error) => void): Deferred;
         /**
          * Set on end callback
          * @param {(wasSuccess: boolean) => void} cb
          * @returns {Deferred}
          */
         onEnd(cb: (wasSuccess: boolean) => void): Deferred;
+    }
+    /**
+     * KnHttp v3.0.0 (2025-03-02T17:47:12.174Z)
+     * Copyright (c) 2022 - 2025 Florent VIALATTE
+     * Released under the MIT license
+     */
+    /**
+     * Success response
+     */
+    class Response {
+        /**
+         * Class constructor
+         * @param {any} data
+         * @param {object} headers
+         * @param {Number} httpCode
+         */
+        constructor(data: any, headers: object, httpCode: number);
+        data: any;
+        headers: any;
+        httpCode: number;
+    }
+    /**
+     * Error response
+     */
+    class Error {
+        /**
+         * Class constructor
+         * @param {Number} code
+         * @param {Number} httpCode
+         * @param {any} data
+         * @param {object} headers
+         */
+        constructor(code: number, httpCode: number, data?: any, headers?: object);
+        code: number;
+        httpCode: number;
+        data: any;
+        headers: any;
     }
 }

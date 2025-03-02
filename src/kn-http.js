@@ -1,6 +1,7 @@
 'use strict';
 
 import { Deferred } from "./deferred";
+import { Error, Response } from "./result";
 import { downloadFile, getFilenameFromContentDisposition, parseResponseHeaders, serializeForm, serializeFormData } from "./utils";
 
 /**
@@ -113,18 +114,21 @@ const KnHttp = new class {
 
 			if (!d._xhr) return;
 
-			if (this.DEFAULTS.validateStatus(d._xhr.status)) {
-				let resHeaders = parseResponseHeaders(d._xhr.getAllResponseHeaders());
+			const resHeaders = parseResponseHeaders(d._xhr.getAllResponseHeaders());
 
+			if (this.DEFAULTS.validateStatus(d._xhr.status)) {
 				if (opt.download && opt.responseType == 'blob') {
 					downloadFile(d._xhr.response, getFilenameFromContentDisposition(d._xhr.getResponseHeader('content-disposition'), url));
-					d._success(true, resHeaders);
+					d._success(new Response(true, resHeaders, d._xhr.status));
 				} else {
-					if (opt.responseType == 'json' && !d._xhr.response) d._error(this.UNKNOWN_ERROR, d._xhr.status);
-					else d._success(d._xhr.response, resHeaders);
+					if (opt.responseType == 'json' && !d._xhr.response) {
+						d._error(new Error(this.UNKNOWN_ERROR, d._xhr.status, d._xhr.response, resHeaders));
+					} else {
+						d._success(new Response(d._xhr.response, resHeaders, d._xhr.status));
+					}
 				}
 			} else {
-				d._error(this.HTTP_ERROR, d._xhr.status);
+				d._error(new Error(this.HTTP_ERROR, d._xhr.status, d._xhr.response, resHeaders));
 			}
 		};
 
@@ -133,7 +137,7 @@ const KnHttp = new class {
 			//console.log("KnHttp.request.xhr.onerror()", e, d._xhr);
 
 			if (!d._xhr) return;
-			d._error(this.NETWORK_ERROR, d._xhr.status);
+			d._error(new Error(this.NETWORK_ERROR, d._xhr.status));
 		};
 
 		// On timeout
@@ -141,7 +145,7 @@ const KnHttp = new class {
 			//console.log("KnHttp.request.xhr.ontimeout()", e, d._xhr);
 
 			if (!d._xhr) return;
-			d._error(this.UNKNOWN_ERROR, d._xhr.status);
+			d._error(new Error(this.UNKNOWN_ERROR, d._xhr.status));
 		};
 
 		// On abort
@@ -149,7 +153,7 @@ const KnHttp = new class {
 			//console.log("KnHttp.request.xhr.onabort()", e, d._xhr);
 
 			if (!d._xhr) return;
-			d._error(this.CANCELED_ERROR, d._xhr.status);
+			d._error(new Error(this.CANCELED_ERROR, d._xhr.status));
 		};
 
 		// Download mode
@@ -178,7 +182,7 @@ const KnHttp = new class {
 				//console.log("KnHttp.request.xhr.upload.onerror()", e, d._xhr);
 
 				if (!d._xhr) return;
-				d._error(this.NETWORK_ERROR, d._xhr.status);
+				d._error(new Error(this.NETWORK_ERROR, d._xhr.status));
 			};
 		}
 

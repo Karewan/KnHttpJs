@@ -1,5 +1,7 @@
 'use strict';
 
+import { Error, Response } from "./result";
+
 /**
  * Deferred
  */
@@ -18,13 +20,13 @@ export class Deferred {
 
 	/**
 	 * @private
-	 * @returns {(res: any, headers: object) => void}
+	 * @returns {(res: Response) => void}
 	 */
 	_onSuccess;
 
 	/**
 	 * @private
-	 * @returns {(err: number, status: number) => void}
+	 * @returns {(err: Error) => void}
 	 */
 	_onError;
 
@@ -56,9 +58,10 @@ export class Deferred {
 	/**
 	 * Trigger on progress
 	 * @private
+	 * @param {number} progress
 	 * @returns {void}
 	 */
-	_progress() {
+	_progress(progress) {
 		//console.log("KnHttp.Deferred._progress()", arguments);
 
 		if (this._onProgress) this._onProgress.apply(null, arguments);
@@ -67,9 +70,10 @@ export class Deferred {
 	/**
 	 * Trigger on success
 	 * @private
+	 * @param {Response} res
 	 * @returns {void}
 	 */
-	_success() {
+	_success(res) {
 		//console.log("KnHttp.Deferred._success()", arguments);
 
 		if (this._onSuccess) this._onSuccess.apply(null, arguments);
@@ -80,9 +84,10 @@ export class Deferred {
 	/**
 	 * Trigger on error
 	 * @private
+	 * @param {Error} err
 	 * @returns {void}
 	 */
-	_error() {
+	_error(err) {
 		//console.log("KnHttp.Deferred._error()", arguments);
 
 		if (this._onError) this._onError.apply(null, arguments);
@@ -104,7 +109,7 @@ export class Deferred {
 
 	/**
 	 * Set on success callback
-	 * @param {(res: any, headers: object) => void} cb
+	 * @param {(res: Response) => void} cb
 	 * @returns {Deferred}
 	 */
 	onSuccess(cb) {
@@ -116,7 +121,7 @@ export class Deferred {
 
 	/**
 	 * Set on error callback
-	 * @param {(err: number, status: number) => void} cb
+	 * @param {(err: Error) => void} cb
 	 * @returns {Deferred}
 	 */
 	onError(cb) {

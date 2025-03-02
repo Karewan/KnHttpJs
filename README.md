@@ -34,25 +34,25 @@ See the changelog [here](CHANGELOG.md)
 	{
 		csrf: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	})
-	.onSuccess((json, headers) => {
-		console.log('saveBtn() onSuccess()', json, headers);
+	.onSuccess(res => {
+		console.log('saveBtn() onSuccess()', res);
 
-		if (json.success) {
+		if (res.data.success) {
 			currentPassword = newPassword = newPasswordConfirm = '';
 			notifySuccess("Password updated successfully");
 		} else {
-			notifyError(json.error ? json.error : "Unknown error");
+			notifyError(res.data.error ? res.data.error : "Unknown error");
 		}
 	})
-	.onError((err, status) => {
-		console.error('saveBtn() onError()', err, status);
+	.onError(err => {
+		console.error('saveBtn() onError()', err);
 
-		if (err == KnHttp.CANCELED_ERROR) {
+		if (err.code == KnHttp.CANCELED_ERROR) {
 			return;
-		} else if (err == KnHttp.HTTP_ERROR) {
-			notifyError("Unknown error: HTTP CODE " + status);
+		} else if (err.code == KnHttp.HTTP_ERROR) {
+			notifyError("Unknown error: HTTP CODE " + err.httpCode);
 		} else {
-			if(err == KnHttp.NETWORK_ERROR) {
+			if(err.code == KnHttp.NETWORK_ERROR) {
 				notifyError("Please check your internet connection");
 			} else {
 				notifyError("Unknown error");
@@ -124,23 +124,31 @@ See the changelog [here](CHANGELOG.md)
 
 	// On progress pourcent callback for upload only
 	// return self
-	req.onProgress((progress) => {
+	req.onProgress(progress => {
+		// progress (number)
 	});
 
 	// On req sucess callback
 	// return self
-	req.onSuccess((res, headers) => {
+	req.onSuccess(res => {
+		// res.data (any)
+		// res.headers (object)
+		// res.httpCode (number)
 	});
 
 	// On req error callback
 	// return self
-	req.onError((err, status) => {
-		// See the err codes bellow
+	req.onError(err => {
+		// err.code (number) => See the err codes bellow
+		// err.httpCode (number)
+		// err.data (any)
+		// err.headers (object)
 	});
 
 	// On req ended callback (whatever the final result)
 	// return self
-	req.onEnd((wasSuccess) => {
+	req.onEnd(wasSuccess => {
+		// wasSuccess (bool)
 	});
 
 	// Abort / cancel the request
