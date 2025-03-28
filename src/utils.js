@@ -101,7 +101,7 @@ export function serializeFormData(params, prefix, fd) {
 		if (params.constructor === Array) key = `${prefix}[${key}]`;
 		else if (params.constructor === Object) key = (prefix ? `${prefix}[${key}]` : key);
 
-		if (typeof value === 'object') serializeFormData(value, key, fd);
+		if (typeof value === 'object' && !(value instanceof File)) serializeFormData(value, key, fd);
 		else fd.append(key, value);
 	}
 

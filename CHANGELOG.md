@@ -1,6 +1,10 @@
 KnHttpJS Changelog
 ==========
 
+v3.0.1 (2025-03-28):
+----------------------------
+* File upload by passing a File instance inside a formData req
+
 v3.0.0 (2025-03-02):
 ----------------------------
 ### Breaking changes

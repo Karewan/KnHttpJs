@@ -1,8 +1,9 @@
 /**
- * KnHttp v3.0.0 (2025-03-02T17:47:12.174Z)
+ * KnHttp v3.0.1 (2025-03-28T16:41:49.569Z)
  * Copyright (c) 2022 - 2025 Florent VIALATTE
  * Released under the MIT license
  */
+
 /**
  * Success response
  */
@@ -282,7 +283,7 @@ function serializeFormData(params, prefix, fd) {
 		if (params.constructor === Array) key = `${prefix}[${key}]`;
 		else if (params.constructor === Object) key = (prefix ? `${prefix}[${key}]` : key);
 
-		if (typeof value === 'object') serializeFormData(value, key, fd);
+		if (typeof value === 'object' && !(value instanceof File)) serializeFormData(value, key, fd);
 		else fd.append(key, value);
 	}
 
@@ -314,7 +315,7 @@ function downloadFile(file, filename) {
  */
 const KnHttp = new class {
 	/** LIB VERSION */
-	VERSION = "3.0.0";
+	VERSION = "3.0.1";
 
 	/**
 	 * ERRORS CODES
