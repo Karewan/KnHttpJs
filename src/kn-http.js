@@ -24,6 +24,7 @@ const KnHttp = new class {
 	 */
 	DEFAULTS = {
 		validateStatus: this.validateStatus,
+		onError: null,
 		timeout: 270_000,
 		basicAuth: null,
 		bearerAuthToken: null,
@@ -59,6 +60,9 @@ const KnHttp = new class {
 
 		// Init deferred object
 		const d = new Deferred();
+
+		// Global error callback
+		if (this.DEFAULTS.onError) d.onError(this.DEFAULTS.onError);
 
 		// Request options
 		opt = Object.assign({

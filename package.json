@@ -1,7 +1,7 @@
 {
 	"name": "kn-http",
 	"author": "Florent VIALATTE",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"main": "./dist/kn-http.js",
 	"types": "./dist/kn-http.d.ts",
 	"type": "module",

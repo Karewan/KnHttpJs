@@ -1,9 +1,8 @@
 /**
- * KnHttp v3.0.1 (2025-03-28T16:41:49.569Z)
+ * KnHttp v3.0.2 (2025-04-02T09:02:13.199Z)
  * Copyright (c) 2022 - 2025 Florent VIALATTE
  * Released under the MIT license
  */
-
 /**
  * Success response
  */
@@ -315,7 +314,7 @@ function downloadFile(file, filename) {
  */
 const KnHttp = new class {
 	/** LIB VERSION */
-	VERSION = "3.0.1";
+	VERSION = "3.0.2";
 
 	/**
 	 * ERRORS CODES
@@ -330,6 +329,7 @@ const KnHttp = new class {
 	 */
 	DEFAULTS = {
 		validateStatus: this.validateStatus,
+		onError: null,
 		timeout: 270_000,
 		basicAuth: null,
 		bearerAuthToken: null,
@@ -365,6 +365,9 @@ const KnHttp = new class {
 
 		// Init deferred object
 		const d = new Deferred();
+
+		// Global error callback
+		if (this.DEFAULTS.onError) d.onError(this.DEFAULTS.onError);
 
 		// Request options
 		opt = Object.assign({

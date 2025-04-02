@@ -1,6 +1,10 @@
 KnHttpJS Changelog
 ==========
 
+v3.0.2 (2025-04-02):
+----------------------------
+* Added optional global error callback
+
 v3.0.1 (2025-03-28):
 ----------------------------
 * File upload by passing a File instance inside a formData req
